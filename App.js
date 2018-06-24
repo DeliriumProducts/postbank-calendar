@@ -93,59 +93,49 @@ export default class PostbankCalendar extends React.Component {
       </View>
     );
   }
-
   loadItems() {
-    setTimeout(() => {
+    fetch('https://postbank-calendar-11a0a.firebaseio.com/reminders.json')
+      .then(res => res.json())
+      .then(parsedRes => {
+        for (const id in parsedRes) {
+          let date = parsedRes[id].reminder.date;
+          let name = parsedRes[id].reminder.name;
+          if (!this.state.items[date]) {
+            this.state.items[date] = [];
+            this.state.items[date].push({
+            name: name,
+            height: 30
+          });
+        }
+      }
+        const newItems = {};
+        Object.keys(this.state.items).forEach(key => { newItems[key] = this.state.items[key]; });
+        this.setState({
+          items: newItems
+        });
+      })
+  }
 
-      fetch('https://postbank-calendar-11a0a.firebaseio.com/reminders.json')
-        .then(res => res.json())
-        .then(parsedRes => {
-          console.log(parsedRes);
-          
-        })
-    }
-    // for (let i = -15; i < 85; i++) {
-    //   const time = day.timestamp + 1 * 24 * 60 * 60 * 1000;
-    //   const strTime = this.timeToString(time);
-    //   if (!this.state.items[strTime]) {
-    //     this.state.items[strTime] = [];
-    //     const numItems = Math.floor(Math.random() * 5);
-    //     for (let j = 0; j < numItems; j++) {
-    //       this.state.items[strTime].push({
-    //         name: 'Item for ' + strTime,
-    //         height: Math.max(50, Math.floor(Math.random() * 150))
-    //       });
-    //     }
-    //   }
-    // }
-    // const newItems = {};
-    // Object.keys(this.state.items).forEach(key => { newItems[key] = this.state.items[key]; });
-    // this.setState({
-    //   items: newItems
-    // });
-  , 5000);
-}
+  renderItem(item) {
+    return (
+      <View style={[styles.item, { height: item.height }]}><Text>{item.name}</Text></View>
+    );
+  }
 
-renderItem(item) {
-  return (
-    <View style={[styles.item, { height: item.height }]}><Text>{item.name}</Text></View>
-  );
-}
+  renderEmptyDate() {
+    return (
+      <View style={styles.emptyDate}><Text>Нямате ангажименти за тази дата!</Text></View>
+    );
+  }
 
-renderEmptyDate() {
-  return (
-    <View style={styles.emptyDate}><Text>Нямате ангажименти за тази дата!</Text></View>
-  );
-}
+  rowHasChanged(r1, r2) {
+    return r1.name !== r2.name;
+  }
 
-rowHasChanged(r1, r2) {
-  return r1.name !== r2.name;
-}
-
-timeToString(time) {
-  const date = new Date(time);
-  return date.toISOString().split('T')[0];
-}
+  timeToString(time) {
+    const date = new Date(time);
+    return date.toISOString().split('T')[0];
+  }
 }
 
 const styles = StyleSheet.create({
