@@ -1,6 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, Navigator, NativeModules,Dimensions, Image, Button, ScrollView } from 'react-native';
+
+import {
+  StyleSheet,
+  Text,
+  View,
+  Navigator,
+  NativeModules,
+  Dimensions,
+  Image,
+  Button,
+  ScrollView
+} from 'react-native';
+
 import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars';
+
+import { FooterImage } from './assets/postbank.png';
 
 LocaleConfig.locales['bg'] = {
   monthNames: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],
@@ -9,8 +23,6 @@ LocaleConfig.locales['bg'] = {
   dayNamesShort: ['Нед.', 'Пон.', 'Вт.', 'Ср.', 'Чт.', 'Пт.', 'Сб.']
 };
 LocaleConfig.defaultLocale = 'bg';
-
-
 
 export default class PostbankCalendar extends React.Component {
   constructor(props) {
@@ -22,7 +34,6 @@ export default class PostbankCalendar extends React.Component {
 
 
   render() {
-    let footer = require('./assets/postbank.png');
     return (
       <View style={styles.container}>
         <Agenda
@@ -32,10 +43,9 @@ export default class PostbankCalendar extends React.Component {
           renderItem={this.renderItem.bind(this)}
           renderEmptyDate={this.renderEmptyDate.bind(this)}
           rowHasChanged={this.rowHasChanged.bind(this)} />
-        <View style={{ flex: 1 }}>
-          <ScrollView>main</ScrollView>
-          <View><Image source={footer} style={styles.footer} /></View>
-        </View>
+        <Image
+          source={{ FooterImage }}
+          style={styles.footer} />
       </View>
     );
   }
@@ -93,7 +103,6 @@ const styles = StyleSheet.create({
   },
   footer: {
     zIndex: 999,
-    width: '100%'
   },
   item: {
     backgroundColor: '#EBEBEB',
