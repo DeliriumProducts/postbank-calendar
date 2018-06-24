@@ -94,12 +94,33 @@ export default class PostbankCalendar extends React.Component {
     );
   }
   loadItems() {
-    fetch('https://postbank-calendar-11a0a.firebaseio.com/reminders.json')
+    fetch('https://postbank-calendar-11a0a.firebaseio.com/reminders.json') // FOR REMINDERS
       .then(res => res.json())
       .then(parsedRes => {
         for (const id in parsedRes) {
           let date = parsedRes[id].reminder.date;
           let name = parsedRes[id].reminder.name;
+          if (!this.state.items[date]) {
+            this.state.items[date] = [];
+            this.state.items[date].push({
+            name: name,
+            height: 30
+          });
+        }
+      }
+        const newItems = {};
+        Object.keys(this.state.items).forEach(key => { newItems[key] = this.state.items[key]; });
+        this.setState({
+          items: newItems
+        });
+      })
+      fetch('https://postbank-calendar-11a0a.firebaseio.com/holidays.json') // FOR HOLIDAYS
+      .then(res => res.json())
+      .then(parsedRes => {
+        console.log(parsedRes);
+        for (const id in parsedRes) {
+          let date = parsedRes[id].holiday.date;
+          let name = parsedRes[id].holiday.name;
           if (!this.state.items[date]) {
             this.state.items[date] = [];
             this.state.items[date].push({
