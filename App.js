@@ -14,6 +14,7 @@ import {
 import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Prompt from 'react-native-prompt';
 const win = Dimensions.get('window');
 
 LocaleConfig.locales['bg'] = {
@@ -30,7 +31,12 @@ export default class PostbankCalendar extends React.Component {
     this.state = {
       items: {},
       showReminderInput: false,
-      text: ''
+      showDateInput: false,
+      text: '',
+      currentReminder: {
+        date,
+        name,
+      }
     };
   }
 
@@ -60,27 +66,7 @@ export default class PostbankCalendar extends React.Component {
           />
         </View>
         <ActionButton buttonColor="rgb(19,47,113)" offsetY={70}>
-          <ActionButton.Item buttonColor="#D94235" title="Напомняне" onPress={() => {
-            // this.state.showReminderInput = true;
-            // console.log(this.state.showReminderInput) 
-            // BASIC MODEL
-            // let Reminder ={
-            //   date: "",
-            //   name: ""
-            // }
-            //   fetch('https://postbank-calendar-11a0a.firebaseio.com/reminders.json', {
-            //     method: 'POST',
-            //     body: JSON.stringify({
-            //       reminder: [{
-            //         date: "2018-06-25",
-            //         name: "Плати данъци"
-            //       }, {
-            //         date: "2018-06-26",
-            //         name: "Плати ток"
-            //       }]
-            //     })
-            //   }).then(res => console.log(res))
-          }}>
+          <ActionButton.Item buttonColor="#D94235" title="Напомняне" onPress={() => this.setState({ showReminderInput: true })}>
             <Icon name="md-create" style={styles.actionButton} />
           </ActionButton.Item>
         </ActionButton>
@@ -90,7 +76,32 @@ export default class PostbankCalendar extends React.Component {
             style={styles.footer}
             resizeMode={'contain'} />
         </View>
+        <Prompt
+          title="Въведи напомняне"
+          placeholder="..."
+          visible={this.state.showReminderInput}
+          onCancel={() => this.setState({ showReminderInput: false})}
+          onSubmit={(value) => {
+            this.setState({ showReminderInput: false, showDateInput: true});
+              this.state.reminder.name = value;
+            } }/>
+             <Prompt
+          title="Въведи дата в формат ГГГГ-ММ-ДД"
+          placeholder="ГГГГ-ММ-ДД"
+          visible={this.state.showDateInput}
+          onCancel={() => this.setState({ showDateInput: false})}
+          onSubmit={(value) => {
+            this.setState({ showDateInput: false});
+              this.state.reminder.date = value;
+              fetch('https://postbank-calendar-11a0a.firebaseio.com/reminders.json', {
+                method: 'POST',
+                body: JSON.stringify(
+                  this.state.reminder
+                )
+              }).then(res => console.log(res))
+            } }/>
       </View>
+
     );
   }
   loadItems() {
@@ -103,18 +114,18 @@ export default class PostbankCalendar extends React.Component {
           if (!this.state.items[date]) {
             this.state.items[date] = [];
             this.state.items[date].push({
-            name: name,
-            height: 30
-          });
+              name: name,
+              height: 30
+            });
+          }
         }
-      }
         const newItems = {};
         Object.keys(this.state.items).forEach(key => { newItems[key] = this.state.items[key]; });
         this.setState({
           items: newItems
         });
       })
-      fetch('https://postbank-calendar-11a0a.firebaseio.com/holidays.json') // FOR HOLIDAYS
+    fetch('https://postbank-calendar-11a0a.firebaseio.com/holidays.json') // FOR HOLIDAYS
       .then(res => res.json())
       .then(parsedRes => {
         console.log(parsedRes);
@@ -124,11 +135,11 @@ export default class PostbankCalendar extends React.Component {
           if (!this.state.items[date]) {
             this.state.items[date] = [];
             this.state.items[date].push({
-            name: name,
-            height: 30
-          });
+              name: name,
+              height: 30
+            });
+          }
         }
-      }
         const newItems = {};
         Object.keys(this.state.items).forEach(key => { newItems[key] = this.state.items[key]; });
         this.setState({

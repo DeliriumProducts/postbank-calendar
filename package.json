@@ -31,6 +31,7 @@
     "react-native-calendars": "^1.19.3",
     "react-native-material-design-styles": "^0.2.7",
     "react-native-material-ui": "^1.22.4",
+    "react-native-prompt": "^1.0.0",
     "react-native-tab-view": "^1.0.2"
   }
 }
