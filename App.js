@@ -42,12 +42,12 @@ export default class PostbankCalendar extends React.Component {
           renderItem={this.renderItem.bind(this)}
           renderEmptyDate={this.renderEmptyDate.bind(this)}
           rowHasChanged={this.rowHasChanged.bind(this)} />
-          <ActionButton buttonColor="#D21A1C" offsetY={80}>
-          <ActionButton.Item buttonColor="#D21A1C" title="Напомняне" onPress={() => console.log("reminder")}>
+          <ActionButton buttonColor="#D21A1C" offsetY={70}>
+          <ActionButton.Item buttonColor="#D21A1C" title="Напомняне" onPress={() => console.log(this.state.items)}>
             <Icon name="md-create" style={styles.actionButton} />
           </ActionButton.Item>
         </ActionButton>
-        <View style={{ width: '100%', height: 75, backgroundColor: '#F5F5F5' }}>
+        <View style={{ width: '100%', height: 60, backgroundColor: '#F5F5F5' }}>
           <Image
             source={require('./assets/postbank.png')}
             style={styles.footer}
