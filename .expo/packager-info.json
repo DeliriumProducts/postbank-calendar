@@ -1,8 +1,8 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 1664,
-  "expoServerNgrokUrl": "https://ng-4wk.deliriumproducts.postbank-calendar.exp.direct",
-  "packagerNgrokUrl": "https://packager.ng-4wk.deliriumproducts.postbank-calendar.exp.direct",
-  "ngrokPid": 4868
+  "packagerPid": 10256,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }

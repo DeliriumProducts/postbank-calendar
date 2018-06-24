@@ -1,7 +1,7 @@
 {
-  "hostType": "lan",
+  "urlRandomness": "b8-i39",
+  "hostType": "tunnel",
   "lanType": "ip",
   "dev": true,
-  "minify": false,
-  "urlRandomness": "ng-4wk"
+  "minify": false
 }
