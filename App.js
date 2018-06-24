@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
+  TextInput,
   View,
   Navigator,
   NativeModules,
@@ -27,7 +28,9 @@ export default class PostbankCalendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: {}
+      items: {},
+      showReminderInput: false,
+      text: ''
     };
   }
 
@@ -38,19 +41,46 @@ export default class PostbankCalendar extends React.Component {
         <Agenda
           items={this.state.items}
           loadItemsForMonth={this.loadItems.bind(this)}
-          selected={'2017-05-16'}
           renderItem={this.renderItem.bind(this)}
           renderEmptyDate={this.renderEmptyDate.bind(this)}
-          rowHasChanged={this.rowHasChanged.bind(this)} 
+          rowHasChanged={this.rowHasChanged.bind(this)}
           theme={{
             agendaDayTextColor: 'rgb(217,66,53)',
             agendaDayNumColor: 'rgb(19,47,113)',
             agendaTodayColor: 'rgb(217,66,53)',
             agendaKnobColor: 'rgb(19,47,113)',
             selectedDayBackgroundColor: 'rgb(19,47,113)',
-          }}/>
-          <ActionButton buttonColor="rgb(19,47,113)" offsetY={70}>
-          <ActionButton.Item buttonColor="#D94235" title="Напомняне" onPress={() => console.log(this.state.items)}>
+            dotColor: 'rgb(217,66,53)',
+          }} />
+        <View display='none' style={styles.reminderView}>
+          <TextInput
+            style={{ height: 40, zIndex: 800 }}
+            placeholder="Въведете напомняне."
+            onChangeText={(text) => this.setState({ text })}
+          />
+        </View>
+        <ActionButton buttonColor="rgb(19,47,113)" offsetY={70}>
+          <ActionButton.Item buttonColor="#D94235" title="Напомняне" onPress={() => {
+            // this.state.showReminderInput = true;
+            // console.log(this.state.showReminderInput) 
+            // BASIC MODEL
+            // let Reminder ={
+            //   date: "",
+            //   name: ""
+            // }
+            //   fetch('https://postbank-calendar-11a0a.firebaseio.com/reminders.json', {
+            //     method: 'POST',
+            //     body: JSON.stringify({
+            //       reminder: [{
+            //         date: "2018-06-25",
+            //         name: "Плати данъци"
+            //       }, {
+            //         date: "2018-06-26",
+            //         name: "Плати ток"
+            //       }]
+            //     })
+            //   }).then(res => console.log(res))
+          }}>
             <Icon name="md-create" style={styles.actionButton} />
           </ActionButton.Item>
         </ActionButton>
@@ -64,56 +94,71 @@ export default class PostbankCalendar extends React.Component {
     );
   }
 
-  loadItems(day) {
+  loadItems() {
     setTimeout(() => {
-      for (let i = -15; i < 85; i++) {
-        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-        const strTime = this.timeToString(time);
-        if (!this.state.items[strTime]) {
-          this.state.items[strTime] = [];
-          const numItems = Math.floor(Math.random() * 5);
-          for (let j = 0; j < numItems; j++) {
-            this.state.items[strTime].push({
-              name: 'Item for ' + strTime,
-              height: Math.max(50, Math.floor(Math.random() * 150))
-            });
-          }
-        }
-      }
-      const newItems = {};
-      Object.keys(this.state.items).forEach(key => { newItems[key] = this.state.items[key]; });
-      this.setState({
-        items: newItems
-      });
-    }, 1000);
-  }
 
-  renderItem(item) {
-    return (
-      <View style={[styles.item, { height: item.height }]}><Text>{item.name}</Text></View>
-    );
-  }
+      fetch('https://postbank-calendar-11a0a.firebaseio.com/reminders.json')
+        .then(res => res.json())
+        .then(parsedRes => {
+          console.log(parsedRes);
+          
+        })
+    }
+    // for (let i = -15; i < 85; i++) {
+    //   const time = day.timestamp + 1 * 24 * 60 * 60 * 1000;
+    //   const strTime = this.timeToString(time);
+    //   if (!this.state.items[strTime]) {
+    //     this.state.items[strTime] = [];
+    //     const numItems = Math.floor(Math.random() * 5);
+    //     for (let j = 0; j < numItems; j++) {
+    //       this.state.items[strTime].push({
+    //         name: 'Item for ' + strTime,
+    //         height: Math.max(50, Math.floor(Math.random() * 150))
+    //       });
+    //     }
+    //   }
+    // }
+    // const newItems = {};
+    // Object.keys(this.state.items).forEach(key => { newItems[key] = this.state.items[key]; });
+    // this.setState({
+    //   items: newItems
+    // });
+  , 5000);
+}
 
-  renderEmptyDate() {
-    return (
-      <View style={styles.emptyDate}><Text>Нямате ангажименти за тази дата!</Text></View>
-    );
-  }
+renderItem(item) {
+  return (
+    <View style={[styles.item, { height: item.height }]}><Text>{item.name}</Text></View>
+  );
+}
 
-  rowHasChanged(r1, r2) {
-    return r1.name !== r2.name;
-  }
+renderEmptyDate() {
+  return (
+    <View style={styles.emptyDate}><Text>Нямате ангажименти за тази дата!</Text></View>
+  );
+}
 
-  timeToString(time) {
-    const date = new Date(time);
-    return date.toISOString().split('T')[0];
-  }
+rowHasChanged(r1, r2) {
+  return r1.name !== r2.name;
+}
+
+timeToString(time) {
+  const date = new Date(time);
+  return date.toISOString().split('T')[0];
+}
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  reminderView: {
+    flex: 1,
+    zIndex: 799,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#00ff00'
   },
   footer: {
     flex: 1,
