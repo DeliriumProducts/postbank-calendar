@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   StyleSheet,
   Text,
@@ -11,10 +10,9 @@ import {
   Button,
   ScrollView
 } from 'react-native';
-
 import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars';
-
 import { FooterImage } from './assets/postbank.png';
+const win = Dimensions.get('window');
 
 LocaleConfig.locales['bg'] = {
   monthNames: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],
@@ -43,9 +41,13 @@ export default class PostbankCalendar extends React.Component {
           renderItem={this.renderItem.bind(this)}
           renderEmptyDate={this.renderEmptyDate.bind(this)}
           rowHasChanged={this.rowHasChanged.bind(this)} />
-        <Image
-          source={{ FooterImage }}
-          style={styles.footer} />
+          <View style={{width: '100%', height: 75, backgroundColor: '#F5F5F5'}}>
+          <Image
+          source={require('./assets/postbank.png')}
+          style={styles.footer}
+          resizeMode={'contain'}  />
+            </View>
+        
       </View>
     );
   }
@@ -102,7 +104,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   footer: {
+    flex: 1,
     zIndex: 999,
+    alignSelf: 'flex-start',
+    width: win.width,
+    height: 10,
+    bottom: 0,
+    backgroundColor: '#F5F5F5'
   },
   item: {
     backgroundColor: '#EBEBEB',
