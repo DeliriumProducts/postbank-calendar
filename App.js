@@ -14,7 +14,7 @@ import {
 import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Prompt from 'react-native-prompt';
+// import Prompt from 'react-native-prompt';
 const win = Dimensions.get('window');
 
 LocaleConfig.locales['bg'] = {
@@ -32,11 +32,11 @@ export default class PostbankCalendar extends React.Component {
       items: {},
       showReminderInput: false,
       showDateInput: false,
-      text: '',
-      currentReminder: {
-        date,
-        name,
-      }
+      text: ''
+      // currentReminder: {
+      //   date,
+      //   name,
+      // }
     };
   }
 
@@ -76,7 +76,7 @@ export default class PostbankCalendar extends React.Component {
             style={styles.footer}
             resizeMode={'contain'} />
         </View>
-        <Prompt
+        {/* <Prompt
           title="Въведи напомняне"
           placeholder="..."
           visible={this.state.showReminderInput}
@@ -99,12 +99,12 @@ export default class PostbankCalendar extends React.Component {
                   this.state.reminder
                 )
               }).then(res => console.log(res))
-            } }/>
-      </View>
+            } }/> */}
+      </View> 
 
     );
   }
-  loadItems() {
+loadItems() {
     fetch('https://postbank-calendar-11a0a.firebaseio.com/reminders.json') // FOR REMINDERS
       .then(res => res.json())
       .then(parsedRes => {
@@ -147,6 +147,7 @@ export default class PostbankCalendar extends React.Component {
         });
       })
   }
+
 
   renderItem(item) {
     return (
