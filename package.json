@@ -15,6 +15,11 @@
     "ios": "react-native-scripts ios",
     "test": "jest"
   },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts"
+    ]
+  },
   "jest": {
     "preset": "jest-expo"
   },
@@ -22,6 +27,8 @@
     "expo": "^27.0.1",
     "react": "16.3.1",
     "react-native": "~0.55.2",
-    "react-native-calendars": "^1.19.3"
+    "react-native-calendars": "^1.19.3",
+    "react-native-material-design-styles": "^0.2.7",
+    "react-native-material-ui": "^1.22.4"
   }
 }
