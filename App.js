@@ -41,9 +41,16 @@ export default class PostbankCalendar extends React.Component {
           selected={'2017-05-16'}
           renderItem={this.renderItem.bind(this)}
           renderEmptyDate={this.renderEmptyDate.bind(this)}
-          rowHasChanged={this.rowHasChanged.bind(this)} />
-          <ActionButton buttonColor="#D21A1C" offsetY={70}>
-          <ActionButton.Item buttonColor="#D21A1C" title="Напомняне" onPress={() => console.log(this.state.items)}>
+          rowHasChanged={this.rowHasChanged.bind(this)} 
+          theme={{
+            agendaDayTextColor: 'rgb(217,66,53)',
+            agendaDayNumColor: 'rgb(19,47,113)',
+            agendaTodayColor: 'rgb(217,66,53)',
+            agendaKnobColor: 'rgb(19,47,113)',
+            selectedDayBackgroundColor: 'rgb(19,47,113)',
+          }}/>
+          <ActionButton buttonColor="rgb(19,47,113)" offsetY={70}>
+          <ActionButton.Item buttonColor="#D94235" title="Напомняне" onPress={() => console.log(this.state.items)}>
             <Icon name="md-create" style={styles.actionButton} />
           </ActionButton.Item>
         </ActionButton>
@@ -123,7 +130,7 @@ const styles = StyleSheet.create({
     zIndex: 999
   },
   item: {
-    backgroundColor: '#EBEBEB',
+    backgroundColor: '#e6e6e6',
     flex: 1,
     borderRadius: 5,
     padding: 10,
