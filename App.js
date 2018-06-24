@@ -11,7 +11,8 @@ import {
   ScrollView
 } from 'react-native';
 import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars';
-import { FooterImage } from './assets/postbank.png';
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
 const win = Dimensions.get('window');
 
 LocaleConfig.locales['bg'] = {
@@ -41,13 +42,18 @@ export default class PostbankCalendar extends React.Component {
           renderItem={this.renderItem.bind(this)}
           renderEmptyDate={this.renderEmptyDate.bind(this)}
           rowHasChanged={this.rowHasChanged.bind(this)} />
-          <View style={{width: '100%', height: 75, backgroundColor: '#F5F5F5'}}>
+        <View style={{ width: '100%', height: 75, backgroundColor: '#F5F5F5' }}>
+          <ActionButton buttonColor="#D21A1C">
+            <ActionButton.Item buttonColor="#D21A1C" title="Напомняне" onPress={() => console.log("reminder")}>
+              <Icon name="md-create" style={styles.actionButton} />
+            </ActionButton.Item>
+          </ActionButton>
           <Image
-          source={require('./assets/postbank.png')}
-          style={styles.footer}
-          resizeMode={'contain'}  />
-            </View>
-        
+            source={require('./assets/postbank.png')}
+            style={styles.footer}
+            resizeMode={'contain'} />
+        </View>
+
       </View>
     );
   }
@@ -84,7 +90,7 @@ export default class PostbankCalendar extends React.Component {
 
   renderEmptyDate() {
     return (
-      <View style={styles.emptyDate}><Text>This is empty date!</Text></View>
+      <View style={styles.emptyDate}><Text>Нямате ангажименти за тази дата!</Text></View>
     );
   }
 
@@ -105,12 +111,17 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 1,
-    zIndex: 999,
     alignSelf: 'flex-start',
     width: win.width,
     height: 10,
     bottom: 0,
     backgroundColor: '#F5F5F5'
+  },
+  actionButton: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
+    zIndex: 999
   },
   item: {
     backgroundColor: '#EBEBEB',
