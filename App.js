@@ -1,20 +1,88 @@
 import React from 'react';
-import { StyleSheet, Text, View, Navigator, NativeModules, Button } from 'react-native';
+import { StyleSheet, Text, View, Navigator, NativeModules,Dimensions, Image, Button, ScrollView } from 'react-native';
 import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars';
 
 LocaleConfig.locales['bg'] = {
-  monthNames: ['Януари','Февруари','Март','Април','Май','Юни','Юли','Август','Септември','Октомври','Ноември','Декември'],
-  monthNamesShort: ['Ян.','Фев.','Март','Апр.','Май','Юни','Юли','Авг.','Сеп.','Окт.','Ноем.','Дек.'],
-  dayNames: ['Неделя','Понеделник','Вторник','Сряда','Четвъртък','Петък','Събота'],
-  dayNamesShort: ['Нед.','Пон.','Вт.','Ср.','Чт.','Пт.','Сб.']
+  monthNames: ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'],
+  monthNamesShort: ['Ян.', 'Фев.', 'Март', 'Апр.', 'Май', 'Юни', 'Юли', 'Авг.', 'Сеп.', 'Окт.', 'Ноем.', 'Дек.'],
+  dayNames: ['Неделя', 'Понеделник', 'Вторник', 'Сряда', 'Четвъртък', 'Петък', 'Събота'],
+  dayNamesShort: ['Нед.', 'Пон.', 'Вт.', 'Ср.', 'Чт.', 'Пт.', 'Сб.']
 };
 LocaleConfig.defaultLocale = 'bg';
 
-export default class App extends React.Component {
+
+
+export default class PostbankCalendar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: {}
+    };
+  }
+
+
   render() {
+    let footer = require('./assets/postbank.png');
     return (
-     <Agenda/>
+      <View style={styles.container}>
+        <Agenda
+          items={this.state.items}
+          loadItemsForMonth={this.loadItems.bind(this)}
+          selected={'2017-05-16'}
+          renderItem={this.renderItem.bind(this)}
+          renderEmptyDate={this.renderEmptyDate.bind(this)}
+          rowHasChanged={this.rowHasChanged.bind(this)} />
+        <View style={{ flex: 1 }}>
+          <ScrollView>main</ScrollView>
+          <View><Image source={footer} style={styles.footer} /></View>
+        </View>
+      </View>
     );
+  }
+
+  loadItems(day) {
+    setTimeout(() => {
+      for (let i = -15; i < 85; i++) {
+        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+        const strTime = this.timeToString(time);
+        if (!this.state.items[strTime]) {
+          this.state.items[strTime] = [];
+          const numItems = Math.floor(Math.random() * 5);
+          for (let j = 0; j < numItems; j++) {
+            this.state.items[strTime].push({
+              name: 'Item for ' + strTime,
+              height: Math.max(50, Math.floor(Math.random() * 150))
+            });
+          }
+        }
+      }
+      const newItems = {};
+      Object.keys(this.state.items).forEach(key => { newItems[key] = this.state.items[key]; });
+      this.setState({
+        items: newItems
+      });
+    }, 1000);
+  }
+
+  renderItem(item) {
+    return (
+      <View style={[styles.item, { height: item.height }]}><Text>{item.name}</Text></View>
+    );
+  }
+
+  renderEmptyDate() {
+    return (
+      <View style={styles.emptyDate}><Text>This is empty date!</Text></View>
+    );
+  }
+
+  rowHasChanged(r1, r2) {
+    return r1.name !== r2.name;
+  }
+
+  timeToString(time) {
+    const date = new Date(time);
+    return date.toISOString().split('T')[0];
   }
 }
 
@@ -22,7 +90,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
+  footer: {
+    zIndex: 999,
+    width: '100%'
+  },
+  item: {
+    backgroundColor: '#EBEBEB',
+    flex: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+    marginTop: 17
+  },
+  emptyDate: {
+    height: 15,
+    flex: 1,
+    paddingTop: 30
+  }
 });
+
