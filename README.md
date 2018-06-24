@@ -18,12 +18,12 @@
 
   ![image](https://i.imgur.com/sFT3Mru.png)
  
-Скрийншоти от приложението:
+# Скрийншоти от приложението:
 
-  ![image](https://i.imgur.com/2n9Hg2X_d.jpg)
+  ![image](https://cdn.discordapp.com/attachments/264906526848712704/460458672846536714/image.png)
   
-  iOS @ iPhone 6 Plus
+ # iOS @ iPhone 6 Plus
   
-  ![image](https://i.imgur.com/6hk14zk_d.jpg)
+  ![image](https://cdn.discordapp.com/attachments/264906526848712704/460476586538303488/image.jpg)
   
-  Android @ Samsung S8
+ # Android @ Samsung S8
