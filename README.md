@@ -17,3 +17,13 @@
 Работеща база от данни:
 
   ![image](https://i.imgur.com/sFT3Mru.png)
+ 
+Скрийншоти от приложението:
+
+  ![image](https://i.imgur.com/2n9Hg2X_d.jpg)
+  
+  iOS @ iPhone 6 Plus
+  
+  ![image](https://i.imgur.com/6hk14zk_d.jpg)
+  
+  Android @ Samsung S8
